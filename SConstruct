@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 import os
-from binding_generator import scons_generate_bindings, scons_emit_files
+from SCons.Script import *
 
 EnsureSConsVersion(4, 0)
 
 try:
-    Import("env")
+    Import("env", "customs")
 except:
     # Default tools with no platform defaults to gnu toolchain.
     # We apply platform specific toolchains via our custom tools.
@@ -19,6 +19,21 @@ if scons_cache_path is not None:
     CacheDir(scons_cache_path)
     Decider("MD5")
 
-sources = [ "dataproto.cpp" ]
-library = env.Library(target="dataproto", source=sources)
-Return('env')
+sources = [ "#dataproto-cpp/src/dataproto.cpp" ]
+env.Append(CPPPATH=[ "#dataproto-cpp/include/dataproto_cpp" ])
+
+buildtype = ARGUMENTS.get("buildtype", "shared")
+
+if buildtype == "library":
+    target = "dataproto"
+    target_obj = env.Library(target=target, source=sources)
+elif buildtype == "shared":
+    target = "dataproto"
+    target_obj = env.SharedLibrary(target=target, source=sources)
+elif buildtype == "objects":
+    target = "dataproto"
+    target_obj = env.Object(target=target, source=sources)
+else:
+    raise ValueError(f"Unsupported buildtype '{buildtype}'")
+
+Return("env", "target_obj")
