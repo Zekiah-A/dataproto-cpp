@@ -1,0 +1,26 @@
+# Binaries
+*.o
+*.os
+*.so
+*.obj
+*.bc
+*.pyc
+*.dblite
+*.pdb
+*.lib
+*.config
+*.creator
+*.creator.user
+*.files
+*.includes
+*.idb
+*.exp
+*.a
+*.wasm
+
+# Other stuff
+*.log
+
+# VSCode
+.vscode/*
+.DS_Store
