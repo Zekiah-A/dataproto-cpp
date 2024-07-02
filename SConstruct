@@ -19,8 +19,9 @@ if scons_cache_path is not None:
     CacheDir(scons_cache_path)
     Decider("MD5")
 
-sources = [ "#dataproto-cpp/src/dataproto.cpp" ]
-env.Append(CPPPATH=[ "#dataproto-cpp/include/dataproto_cpp" ])
+sources = [ "src/dataproto.cpp" ]
+env.Append(CPPPATH=[ "include/dataproto_cpp/" ])
+env.Append(CCFLAGS=["-fPIC", "-Wall", "-Wextra"])
 
 buildtype = ARGUMENTS.get("buildtype", "shared")
 

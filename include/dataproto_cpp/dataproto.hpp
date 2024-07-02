@@ -7,6 +7,7 @@
 #include <string>
 
 using namespace std;
+
 namespace dataproto {
 	// Print an error message and abort
 	using FailFunction = void (*)(const void *reason);
