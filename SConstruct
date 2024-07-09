@@ -21,7 +21,12 @@ if scons_cache_path is not None:
 
 sources = [ "src/dataproto.cpp" ]
 env.Append(CPPPATH=[ "include/dataproto_cpp/" ])
-env.Append(CCFLAGS=["-fPIC", "-Wall", "-Wextra"])
+env.Append(CCFLAGS=["-fPIC", "-Wall", "-Wextra", "-fvisibility=default"])
+env.Append(LINKFLAGS=["-rdynamic"])
+
+if env["PLATFORM"] == "web":
+    env.Append(CCFLAGS=["-sSIDE_MODULE", "-sUSE_PTHREADS"])
+    env.Append(LINKFLAGS=["-sSIDE_MODULE", "-sUSE_PTHREADS", "-sEXPORT_ALL", "-sEXPORTED_RUNTIME_METHODS=['ccall', 'cwrap']"])
 
 buildtype = ARGUMENTS.get("buildtype", "shared")
 
